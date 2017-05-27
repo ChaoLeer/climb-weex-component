@@ -118,87 +118,179 @@ export default {
       },
     }
   },
+  props: {
+    value: {
+      default: {
+        province: {
+          name: '北京市',
+          code: 110000
+        },
+        city: {
+          name: '市辖区',
+          code: 110100
+        },
+        area: {
+          name: '东城区',
+          code: 110101
+        }
+      }
+    }
+  },
   created() {
   },
   methods: {
     initData() {
       this.provinceState.data = province;
-      this.provinceState.selectedId = 110000; //北京市  省
-      this.cityState.selectedId = 110100;     //市辖区  市
-      this.areaState.selectedId = 110101;     //东城区  区
-      this.filterCity();
-      this.filterArea();
-      this['provinceState'].data.forEach(function (item, index) {
-        item.current = false
-        item.index = index
-      })
-      this['cityState'].data.forEach(function (item, index) {
-        item.current = false
-        item.index = index
-      })
-      this['areaState'].data.forEach(function (item, index) {
-        item.current = false
-        item.index = index
-      })
-      this['provinceState'].data[0].current = true
+      // this.provinceState.selectedId = 110000; //北京市  省
+      // this.cityState.selectedId = 110100;     //市辖区  市
+      // this.areaState.selectedId = 110101;     //东城区  区
+      let vm = this
+      this.provinceState.selectedId = this.value.province.code; //北京市  省
+      this.cityState.selectedId =  this.value.city.code;     //市辖区  市
+      this.areaState.selectedId =  this.value.area.code;     //东城区  区
+      
+      this.filterCity(1);
+      this.filterArea(1);
+      // this['provinceState'].data.forEach(function (item, index) {
+      //   if (item.code == vm.provinceState.selectedId) {
+      //     Vue.set(item, 'current', true)
+      //     console.info(item.current)
+      //   } else {
+      //     Vue.set(item, 'current', false)
+      //   }
+      //   item.index = index
+      // })
+      // this['cityState'].data.forEach(function (item, index) {
+      //   if (item.code == vm.cityState.selectedId) {
+      //     Vue.set(item, 'current', true)
+      //   } else {
+      //     Vue.set(item, 'current', false)
+      //   }
+      //   item.index = index
+      // })
+      // this['areaState'].data.forEach(function (item, index) {
+      //   if (item.code == vm.areaState.selectedId) {
+      //     Vue.set(item, 'current', true)
+      //   } else {
+      //     Vue.set(item, 'current', false)
+      //   }
+      //   item.index = index
+      // })
+      // this['provinceState'].data[0].current = true
+      // this['provinceState'].data[0].current = true
 
-      if (this['cityState'].data[0]) {
-        this['cityState'].data[0].current = true
-      }
-      if (this['areaState'].data[0]) {
-        this['areaState'].data[0].current = true
-      }
-      this.current.province = this['provinceState'].data[0]
-      this.current.city = this['cityState'].data[0]
-      this.current.area = this['areaState'].data[0]
+      // if (this['cityState'].data[0]) {
+      //   this['cityState'].data[0].current = true
+      // }
+      // if (this['areaState'].data[0]) {
+      //   this['areaState'].data[0].current = true
+      // }
+      // this.current.province = this['provinceState'].data[0]
+      // this.current.city = this['cityState'].data[0]
+      // this.current.area = this['areaState'].data[0]
     },
-    filterCity() {
+    filterCity(init) {
       this.cityState.data = city.filter((item, index) => {
         return item.parentId === this.provinceState.selectedId;
       })
-      this.cityState.selectedId = this.cityState.data[0] && this.cityState.data[0].code;
-      this.cityState.translateY = 0;
-      this.cityState.index = 0;
+      if (!init) {
+        this.cityState.selectedId = this.cityState.data[0] && this.cityState.data[0].code;
+        this.cityState.index = 0;
+        this.cityState.translateY = 0;
+      }
     },
-    filterArea() {
+    filterArea(init) {
       this.areaState.data = area.filter((item, index) => {
         return item.parentId === this.cityState.selectedId;
       })
-      this.areaState.selectedId = this.areaState.data[0] && this.areaState.data[0].code;
-      this.areaState.translateY = 0;
-      this.areaState.index = 0;
+      if (!init) {
+        this.areaState.selectedId = this.areaState.data[0] && this.areaState.data[0].code;
+        this.areaState.translateY = 0;
+        this.areaState.index = 0;
+      }
     },
-    pickerCurrent(currentProvince, currentCity, currentArea) {
+    pickerCurrent(init, currentProvince, currentCity, currentArea) {
       // console.info('city' + currentCity)
-
+      let vm = this
       this['provinceState'].data.forEach(function (item, index) {
-        item.current = false
+        if (item.code == vm.provinceState.selectedId && init) {
+          Vue.set(item, 'current', true)
+          Vue.set(vm['provinceState'], 'index', index)
+          console.info(item.current)
+        } else {
+          Vue.set(item, 'current', false)
+        }
         item.index = index
       })
-      let provincel = this.$refs['province' + currentProvince][0]
-      dom.scrollToElement(provincel, { offset: -200 })
-      this.current.province = this['provinceState'].data[currentProvince]
-      Vue.set(this['provinceState'].data[currentProvince], 'current', true)
+      
+
+      // this['provinceState'].data.forEach(function (item, index) {
+      //   item.current = false
+      //   item.index = index
+      // })
+      if (init) {
+        let provincel = this.$refs['province' + vm.provinceState.index][0]
+        dom.scrollToElement(provincel, { offset: -200 })
+        this.current.province = this['provinceState'].data[vm.provinceState.index]
+        Vue.set(this['provinceState'].data[vm.provinceState.index], 'current', true)
+      } else {
+        let provincel = this.$refs['province' + currentProvince][0]
+        dom.scrollToElement(provincel, { offset: -200 })
+        this.current.province = this['provinceState'].data[currentProvince]
+        Vue.set(this['provinceState'].data[currentProvince], 'current', true)
+      }
 
       if (!!this['cityState'].data[0]) {
+        // this['cityState'].data.forEach(function (item, index) {
+        //   item.current = false
+        //   item.index = index
+        // })
         this['cityState'].data.forEach(function (item, index) {
-          item.current = false
+          if (item.code == vm.cityState.selectedId && init) {
+            Vue.set(item, 'current', true)
+            Vue.set(vm['cityState'], 'index', index)
+          } else {
+            Vue.set(item, 'current', false)
+          }
           item.index = index
         })
-        let cityel = this.$refs['city' + currentCity][0]
-        this.current.city = this['cityState'].data[currentCity]
-        dom.scrollToElement(cityel, { offset: -200 })
-        Vue.set(this['cityState'].data[currentCity], 'current', true)
+        if (init) {
+          let cityel = this.$refs['city' + vm.cityState.index][0]
+          this.current.city = this['cityState'].data[vm.cityState.index]
+          dom.scrollToElement(cityel, { offset: -200 })
+          Vue.set(this['cityState'].data[vm.cityState.index], 'current', true)
+        } else {
+          let cityel = this.$refs['city' + currentCity][0]
+          this.current.city = this['cityState'].data[currentCity]
+          dom.scrollToElement(cityel, { offset: -200 })
+          Vue.set(this['cityState'].data[currentCity], 'current', true)
+        }
       }
       if (!!this['areaState'].data[0]) {
+        // this['areaState'].data.forEach(function (item, index) {
+        //   item.current = false
+        //   item.index = index
+        // })
         this['areaState'].data.forEach(function (item, index) {
-          item.current = false
+          if (item.code == vm.areaState.selectedId && init) {
+            Vue.set(item, 'current', true)
+            Vue.set(vm['areaState'], 'index', index)
+          } else {
+            Vue.set(item, 'current', false)
+          }
           item.index = index
         })
-        let areael = this.$refs['area' + currentArea][0]
-        dom.scrollToElement(areael, { offset: -200 })
-        this.current.area = this['areaState'].data[currentArea]
-        Vue.set(this['areaState'].data[currentArea], 'current', true)
+        if (init) {
+          let areael = this.$refs['area' + vm.areaState.index][0]
+          dom.scrollToElement(areael, { offset: -200 })
+          this.current.area = this['areaState'].data[vm.areaState.index]
+          Vue.set(this['areaState'].data[vm.areaState.index], 'current', true)
+        } else {
+          let areael = this.$refs['area' + currentArea][0]
+          dom.scrollToElement(areael, { offset: -200 })
+          this.current.area = this['areaState'].data[currentArea]
+          Vue.set(this['areaState'].data[currentArea], 'current', true)
+        }
       }
     },
     getSelectedData(index, target) {
@@ -206,13 +298,14 @@ export default {
       let thisData = this[target + 'State']
       thisData.selectedId = thisData.data[index].code;
       thisData.data.forEach(function (item, index) {
-        item.current = false
+        // item.current = false
+        Vue.set(item, 'current', false)
         item.index = index
       })
       thisData.data[index].current = true
       if (target === 'province') {
-        this.filterCity()
-        this.filterArea()
+        this.filterCity(0)
+        this.filterArea(0)
         this.current.province = thisData.data[index]
         this.current.city = this['cityState'].data[0]
         this.current.area = this['areaState'].data[0]
@@ -228,10 +321,10 @@ export default {
         if (this['areaState'].data[0]) {
           this['areaState'].data[0].current = true
         }
-        this.pickerCurrent(index, 0, 0)
+        this.pickerCurrent(0, index, 0, 0)
       }
       if (target === 'city') {
-        this.filterArea();
+        this.filterArea(0);
         this.current.city = thisData.data[index]
         this.current.area = this['areaState'].data[0]
         this['areaState'].data.forEach(function (item) {
@@ -240,12 +333,12 @@ export default {
         if (this['areaState'].data[0]) {
           this['areaState'].data[0].current = true
         }
-        this.pickerCurrent(this.current.province['index'], index, 0)
+        this.pickerCurrent(0, this.current.province['index'], index, 0)
       }
       if (target === 'area') {
-        this.filterArea();
+        this.filterArea(0);
         this.current.area = thisData.data[index]
-        this.pickerCurrent(this.current.province['index'], this.current.city['index'], index)
+        this.pickerCurrent(0, this.current.province['index'], this.current.city['index'], index)
       }
       // console.info(this.current)
     },
@@ -287,11 +380,12 @@ export default {
     }
   },
   mounted: function () {
-    this.initData()
+    let vm = this
     this.wrapper()
     this.cover()
+    this.initData()
     this.$nextTick(function () {
-      this.pickerCurrent(0, 0, 0)
+      this.pickerCurrent(1)
     })
   }
 }

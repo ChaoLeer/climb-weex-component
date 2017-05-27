@@ -1,7 +1,7 @@
 <template>
   <wx-panel title="pickerarea">
     <wx-button type="success" size="small" @onClick="btn" value="打开"></wx-button>
-    <wx-pickerarea v-if="states" @pickerSelect="getValue" @cancel="pickerCancel"></wx-pickerarea>
+    <wx-pickerarea v-if="states" @pickerSelect="getValue" @cancel="pickerCancel" :value="defaultPicker"></wx-pickerarea>
   </wx-panel>
 </template>
 
@@ -38,7 +38,22 @@ export default {
           label: '新疆',
           value: '8'
         }]
+      },
+      defaultPicker: {
+        province: {
+          name: '陕西省',
+          code: 610000
+        },
+        city: {
+          name: '铜川市',
+          code: 610200
+        },
+        area: {
+          name: '印台区',
+          code: 610203
+        }
       }
+
     }
   },
   methods: {
