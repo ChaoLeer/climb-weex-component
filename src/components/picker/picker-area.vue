@@ -10,26 +10,65 @@
       <div class="picker-list">
   
         <list class="picker-list-item">
-          <cell v-for="(item, index) in provinceState.data" :key="index">
-            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',backgroundColor: item.current ? '#008dfc' : '#fff'}" @click="getSelectedData(index, 'province')">
-              <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell v-for="(item, index) in provinceState.data" :key="index" :ref="'province'+index">
+            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',opacity: item.current ? '1' : '.5'}" @click="getSelectedData(index, 'province')">
+              <text class="picker-text">{{item.name}}</text>
             </div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
           </cell>
         </list>
   
         <list class="picker-list-item borderlr">
-          <cell v-for="(item, index) in cityState.data" :key="index">
-            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',backgroundColor: item.current ? '#008dfc' : '#fff'}" @click="getSelectedData(index, 'city')">
-              <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell v-for="(item, index) in cityState.data" :key="index" :ref="'city'+index">
+            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',opacity: item.current ? '1' : '.5'}" @click="getSelectedData(index, 'city')">
+              <text class="picker-text">{{item.name}}</text>
             </div>
+            <!--<div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',backgroundColor: item.current ? '#008dfc' : '#fff'}" @click="getSelectedData(index, 'city')">
+                                                                                                                            <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
+                                                                                                                          </div>-->
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
           </cell>
         </list>
   
         <list class="picker-list-item">
-          <cell v-for="(item, index) in areaState.data" :key="index">
-            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',backgroundColor: item.current ? '#008dfc' : '#fff'}" @click="getSelectedData(index, 'area')">
-              <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell v-for="(item, index) in areaState.data" :key="index" :ref="'area'+index">
+            <div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',opacity: item.current ? '1' : '.5'}" @click="getSelectedData(index, 'area')">
+              <text class="picker-text">{{item.name}}</text>
             </div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
+          </cell>
+          <cell>
+            <div class="picker-panel"></div>
           </cell>
         </list>
       </div>
@@ -37,6 +76,7 @@
   </div>
 </template>
 <script>
+const dom = weex.requireModule('dom')
 const modal = weex.requireModule('modal')
 const animation = weex.requireModule('animation')
 import { province, city, area } from './city-data'
@@ -90,15 +130,15 @@ export default {
       this.filterArea();
       this['provinceState'].data.forEach(function (item, index) {
         item.current = false
-        // item.index = index
+        item.index = index
       })
       this['cityState'].data.forEach(function (item, index) {
         item.current = false
-        // item.index = index
+        item.index = index
       })
       this['areaState'].data.forEach(function (item, index) {
         item.current = false
-        // item.index = index
+        item.index = index
       })
       this['provinceState'].data[0].current = true
 
@@ -130,27 +170,44 @@ export default {
     },
     pickerCurrent(currentProvince, currentCity, currentArea) {
       // console.info('city' + currentCity)
+
+      this['provinceState'].data.forEach(function (item, index) {
+        item.current = false
+        item.index = index
+      })
       let provincel = this.$refs['province' + currentProvince][0]
-      let cityel = this.$refs['city' + currentCity][0]
-      let areael = this.$refs['area' + currentArea][0]
-
       dom.scrollToElement(provincel, { offset: -200 })
-      dom.scrollToElement(cityel, { offset: -200 })
-      dom.scrollToElement(areael, { offset: -200 })
       this.current.province = this['provinceState'].data[currentProvince]
-      this.current.city = this['cityState'].data[currentCity]
-      this.current.area = this['areaState'].data[currentArea]
-
       Vue.set(this['provinceState'].data[currentProvince], 'current', true)
-      Vue.set(this['cityState'].data[currentCity], 'current', true)
-      Vue.set(this['areaState'].data[currentArea], 'current', true)
+
+      if (!!this['cityState'].data[0]) {
+        this['cityState'].data.forEach(function (item, index) {
+          item.current = false
+          item.index = index
+        })
+        let cityel = this.$refs['city' + currentCity][0]
+        this.current.city = this['cityState'].data[currentCity]
+        dom.scrollToElement(cityel, { offset: -200 })
+        Vue.set(this['cityState'].data[currentCity], 'current', true)
+      }
+      if (!!this['areaState'].data[0]) {
+        this['areaState'].data.forEach(function (item, index) {
+          item.current = false
+          item.index = index
+        })
+        let areael = this.$refs['area' + currentArea][0]
+        dom.scrollToElement(areael, { offset: -200 })
+        this.current.area = this['areaState'].data[currentArea]
+        Vue.set(this['areaState'].data[currentArea], 'current', true)
+      }
     },
     getSelectedData(index, target) {
       // let target = this.target;
       let thisData = this[target + 'State']
       thisData.selectedId = thisData.data[index].code;
-      thisData.data.forEach(function (item) {
+      thisData.data.forEach(function (item, index) {
         item.current = false
+        item.index = index
       })
       thisData.data[index].current = true
       if (target === 'province') {
@@ -171,6 +228,7 @@ export default {
         if (this['areaState'].data[0]) {
           this['areaState'].data[0].current = true
         }
+        this.pickerCurrent(index, 0, 0)
       }
       if (target === 'city') {
         this.filterArea();
@@ -182,10 +240,12 @@ export default {
         if (this['areaState'].data[0]) {
           this['areaState'].data[0].current = true
         }
+        this.pickerCurrent(this.current.province['index'], index, 0)
       }
       if (target === 'area') {
         this.filterArea();
         this.current.area = thisData.data[index]
+        this.pickerCurrent(this.current.province['index'], this.current.city['index'], index)
       }
       // console.info(this.current)
     },
@@ -230,6 +290,9 @@ export default {
     this.initData()
     this.wrapper()
     this.cover()
+    this.$nextTick(function () {
+      this.pickerCurrent(0, 0, 0)
+    })
   }
 }
 
@@ -275,83 +338,6 @@ export default {
   font-size: 30px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.bdr{
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }*/
-
 .picker-list-wrapper {
   position: absolute;
   left: 0;
@@ -385,9 +371,10 @@ export default {
 }
 
 .picker-panel {
-  border-color: #e5e5e5;
+  height: 100px;
+  /*border-color: #e5e5e5;
   border-bottom-width: 1px;
-  border-style: solid;
+  border-style: solid;*/
   /*border-radius: 15px;*/
 }
 
