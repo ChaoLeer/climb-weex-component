@@ -5,6 +5,7 @@ import Picker from "./picker/picker.vue";
 import Pickerarea from "./picker/picker-area.vue";
 import Pickertime from "./picker/picker-time.vue";
 import Pickerdate from "./picker/picker-date.vue";
+import List from "./list/list.vue";
 
 const wxComponets = {
   button: Button,
@@ -13,7 +14,8 @@ const wxComponets = {
   picker: Picker,
   pickerarea: Pickerarea,
   pickertime: Pickertime,
-  pickerdate: Pickerdate
+  pickerdate: Pickerdate,
+  list: List
 };
 
 Object.keys(wxComponets).forEach(key => {

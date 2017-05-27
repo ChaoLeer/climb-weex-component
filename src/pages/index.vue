@@ -1,30 +1,6 @@
 <template>
-  <div class="catalog">
-    <div class="catalog-menu" @click="jump('/')">
-      <text class="catalog-menu-txt">首页</text>
-    </div>
-    <div class="catalog-menu" @click="navJump">
-      <text class="catalog-menu-txt">foo</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/button')">
-      <text class="catalog-menu-txt">button</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/actionsheet')">
-      <text class="catalog-menu-txt">actionsheet</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/picker')">
-      <text class="catalog-menu-txt">picker</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/timepicker')">
-      <text class="catalog-menu-txt">timepicker</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/datepicker')">
-      <text class="catalog-menu-txt">datepicker</text>
-    </div>
-    <div class="catalog-menu" @click="jump('/pickerarea')">
-      <text class="catalog-menu-txt">pickerarea</text>
-    </div>
-    <!--<div class="cover"></div>-->
+  <div>
+    <wx-list :height="130" :lineHeight="130" color="#9966cc" :config="listConfig"></wx-list>
   </div>
 </template>
 
@@ -33,6 +9,32 @@ var navigator = weex.requireModule('navigator')
 var modal = weex.requireModule('modal')
 
 export default {
+  data() {
+    return {
+      listConfig: {
+        router: true,
+        list: [{
+          inner: 'button',
+          path: '/button'
+        }, {
+          inner: 'actionsheet',
+          path: '/actionsheet'
+        }, {
+          inner: 'picker',
+          path: '/picker'
+        }, {
+          inner: '日期选择',
+          path: '/datepicker'
+        }, {
+          inner: '时间选择',
+          path: '/timepicker'
+        }, {
+          inner: '地域选择',
+          path: '/pickerarea'
+        }]
+      }
+    }
+  },
   methods: {
     navJump() {
       // modal.toast({message: false, duration: 2})
