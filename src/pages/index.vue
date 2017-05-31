@@ -31,6 +31,9 @@ export default {
         }, {
           inner: '地域选择',
           path: '/pickerarea'
+        }, {
+          inner: '级联选择',
+          path: '/cascade'
         }]
       }
     }

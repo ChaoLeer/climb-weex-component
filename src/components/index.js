@@ -5,6 +5,7 @@ import Picker from "./picker/picker.vue";
 import Pickerarea from "./picker/picker-area.vue";
 import Pickertime from "./picker/picker-time.vue";
 import Pickerdate from "./picker/picker-date.vue";
+import Cascade from "./cascade/cascade.vue";
 import List from "./list/list.vue";
 
 const wxComponets = {
@@ -15,6 +16,7 @@ const wxComponets = {
   pickerarea: Pickerarea,
   pickertime: Pickertime,
   pickerdate: Pickerdate,
+  cascade: Cascade,
   list: List
 };
 

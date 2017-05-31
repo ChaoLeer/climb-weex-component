@@ -6,6 +6,7 @@ import picker from '../pages/picker.vue'
 import pickerarea from '../pages/picker-area.vue'
 import timepicker from '../pages/picker-time.vue'
 import datepicker from '../pages/picker-date.vue'
+import cascade from '../pages/cascade.vue'
 const routes = [{
   path: '/',
   component: index
@@ -30,6 +31,9 @@ const routes = [{
 }, {
   path: '/foo',
   component: foo
+}, {
+  path: '/cascade',
+  component: cascade
 }]
 
 export default routes
