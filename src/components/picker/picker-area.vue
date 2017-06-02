@@ -1,5 +1,5 @@
 <template>
-  <div class="picker-wrapper" append="node">
+  <div class="picker-wrapper" append="node" :style="{right: platform?'-30px':'0'}">
     <div class="picker-cover" ref="cover"></div>
     <div class="picker-list-wrapper" ref="wrapper">
       <div class="picker-title picker-panel">
@@ -41,8 +41,8 @@
               <text class="picker-text">{{item.name}}</text>
             </div>
             <!--<div class="picker-panel list-bg" :style="{marginTop: !!item.devide ? '30px':'0',backgroundColor: item.current ? '#008dfc' : '#fff'}" @click="getSelectedData(index, 'city')">
-                                                                                                                            <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
-                                                                                                                          </div>-->
+                                                                                                                                                                                                                            <text class="picker-text" :style="{color: item.current ? '#fff' : '#008dfc'}">{{item.name}}</text>
+                                                                                                                                                                                                                          </div>-->
           </cell>
           <cell>
             <div class="picker-panel"></div>
@@ -136,7 +136,10 @@ export default {
       }
     }
   },
-  created() {
+  computed: {
+    platform: () => {
+      return weex.config.env.platform.toLowerCase() == 'android'
+    }
   },
   methods: {
     initData() {
@@ -146,48 +149,11 @@ export default {
       // this.areaState.selectedId = 110101;     //东城区  区
       let vm = this
       this.provinceState.selectedId = this.value.province.code; //北京市  省
-      this.cityState.selectedId =  this.value.city.code;     //市辖区  市
-      this.areaState.selectedId =  this.value.area.code;     //东城区  区
-      
+      this.cityState.selectedId = this.value.city.code;     //市辖区  市
+      this.areaState.selectedId = this.value.area.code;     //东城区  区
+
       this.filterCity(1);
       this.filterArea(1);
-      // this['provinceState'].data.forEach(function (item, index) {
-      //   if (item.code == vm.provinceState.selectedId) {
-      //     Vue.set(item, 'current', true)
-      //     console.info(item.current)
-      //   } else {
-      //     Vue.set(item, 'current', false)
-      //   }
-      //   item.index = index
-      // })
-      // this['cityState'].data.forEach(function (item, index) {
-      //   if (item.code == vm.cityState.selectedId) {
-      //     Vue.set(item, 'current', true)
-      //   } else {
-      //     Vue.set(item, 'current', false)
-      //   }
-      //   item.index = index
-      // })
-      // this['areaState'].data.forEach(function (item, index) {
-      //   if (item.code == vm.areaState.selectedId) {
-      //     Vue.set(item, 'current', true)
-      //   } else {
-      //     Vue.set(item, 'current', false)
-      //   }
-      //   item.index = index
-      // })
-      // this['provinceState'].data[0].current = true
-      // this['provinceState'].data[0].current = true
-
-      // if (this['cityState'].data[0]) {
-      //   this['cityState'].data[0].current = true
-      // }
-      // if (this['areaState'].data[0]) {
-      //   this['areaState'].data[0].current = true
-      // }
-      // this.current.province = this['provinceState'].data[0]
-      // this.current.city = this['cityState'].data[0]
-      // this.current.area = this['areaState'].data[0]
     },
     filterCity(init) {
       this.cityState.data = city.filter((item, index) => {
@@ -222,12 +188,7 @@ export default {
         }
         item.index = index
       })
-      
 
-      // this['provinceState'].data.forEach(function (item, index) {
-      //   item.current = false
-      //   item.index = index
-      // })
       if (init) {
         let provincel = this.$refs['province' + vm.provinceState.index][0]
         dom.scrollToElement(provincel, { offset: -200 })
@@ -241,10 +202,6 @@ export default {
       }
 
       if (!!this['cityState'].data[0]) {
-        // this['cityState'].data.forEach(function (item, index) {
-        //   item.current = false
-        //   item.index = index
-        // })
         this['cityState'].data.forEach(function (item, index) {
           if (item.code == vm.cityState.selectedId && init) {
             Vue.set(item, 'current', true)
@@ -267,10 +224,6 @@ export default {
         }
       }
       if (!!this['areaState'].data[0]) {
-        // this['areaState'].data.forEach(function (item, index) {
-        //   item.current = false
-        //   item.index = index
-        // })
         this['areaState'].data.forEach(function (item, index) {
           if (item.code == vm.areaState.selectedId && init) {
             Vue.set(item, 'current', true)
@@ -447,9 +400,6 @@ export default {
   overflow-y: auto;
   flex-direction: row;
   align-items: center;
-  /*padding-bottom: 30px;*/
-  /*padding-left: 15px;
-    padding-right: 15px;*/
 }
 
 .picker-list-item {
@@ -466,10 +416,6 @@ export default {
 
 .picker-panel {
   height: 100px;
-  /*border-color: #e5e5e5;
-  border-bottom-width: 1px;
-  border-style: solid;*/
-  /*border-radius: 15px;*/
 }
 
 .list-bg {

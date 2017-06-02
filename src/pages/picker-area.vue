@@ -11,34 +11,6 @@ export default {
   data() {
     return {
       states: false,
-      pickerList: {
-        title: 'pickerarea',
-        create: [{
-          label: '陕西',
-          value: '1'
-        }, {
-          label: '北京',
-          value: '2'
-        }, {
-          label: '重庆',
-          value: '3'
-        }, {
-          label: '山西',
-          value: '4'
-        }, {
-          label: '广州',
-          value: '5'
-        }, {
-          label: '湖南',
-          value: '6'
-        }, {
-          label: '湖北',
-          value: '7'
-        }, {
-          label: '新疆',
-          value: '8'
-        }]
-      },
       defaultPicker: {
         province: {
           name: '陕西省',

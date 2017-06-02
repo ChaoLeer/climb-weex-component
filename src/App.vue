@@ -45,19 +45,6 @@ export default {
       }
     }
   },
-  created() {
-    // let vm = this
-    // vm.listConfig = {
-    //   list: [{
-    //     inner: '首页',
-    //     callback: function (item, index) {
-    //       let msg = item
-    //       vm.jump('/datepicker')
-    //       modal.toast({ message: msg, duration: 2 })
-    //     }
-    //   }]
-    // }
-  },
   methods: {
     listHandle(item) {
       modal.toast({ message: JSON.stringify(item), duration: 2 })

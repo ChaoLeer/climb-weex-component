@@ -1,5 +1,5 @@
 <template>
-  <div class="picker-wrapper" append="node">
+  <div class="picker-wrapper" append="node" :style="{right: platform?'-30px':'0'}">
     <div class="picker-cover" ref="cover"></div>
     <div class="picker-list-wrapper" ref="wrapper">
       <div class="picker-title picker-panel">
@@ -66,6 +66,12 @@ export default {
       default: function () {
         return []
       }
+    }
+  },
+  computed: {
+    platform: () => {
+      // console.info( weex.config.env.platform.toLowerCase())
+      return weex.config.env.platform.toLowerCase() == 'android'
     }
   },
   created() {

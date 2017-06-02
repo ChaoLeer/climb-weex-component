@@ -12,8 +12,7 @@ export default {
     return {
       states: false,
       pickerList: {
-        title: 'picker',
-        info: '欢迎使用picker',
+        title: '请选择picker',
         create: [{
           label: '陕西',
           value: '1'
