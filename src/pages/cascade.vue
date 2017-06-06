@@ -1,7 +1,7 @@
 <template>
   <wx-panel title="cascade">
     <wx-button type="success" size="small" @onClick="btn" value="打开"></wx-button>
-    <wx-cascade v-if="states" @pickerSelect="getValue" mainKey="code" :datas="datas" :level="2"></wx-cascade>
+    <wx-cascade v-if="states" @pickerSelect="getValue" mainKey="code" :datas="datas" :level="3"></wx-cascade>
   </wx-panel>
 </template>
 
