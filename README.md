@@ -1,6 +1,7 @@
 # climb-weex-component
 
-> climb-weex-component
+> climb-weex-component 基于weex的组件封装，现阶段并没有做Android端iOS端扩展，现有button，actionsheet，list，picker(日期，时间，地域)以及自定义数据联动
+演示地址：http://strun.club/source/weex/components/index.html
 
 ## getting start
 

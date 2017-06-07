@@ -2,11 +2,13 @@
   "name": "climb-weex-component",
   "description": "climb-weex-component",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "main": "index.js",
   "keywords": [
     "weex",
-    "vue"
+    "vue",
+    "weex components",
+    "weex 组件"
   ],
   "scripts": {
     "build": "webpack",
